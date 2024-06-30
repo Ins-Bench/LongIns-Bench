@@ -1,5 +1,5 @@
 # LongIns-Bench
-[**📖 arXiv**](https://arxiv.org/abs/2406.17588) | [**GitHub**](https://github.com/II-Bench/II-Bench)
+[**📖 arXiv**](https://arxiv.org/abs/2406.17588) | [**GitHub**](https://github.com/Ins-Bench/LongIns-Bench)
 
 
 This repo contains the evaluation code for the paper "[LongIns: A Challenging Long-context Instruction-based Exam for LLMs](https://arxiv.org/abs/2406.17588)"
@@ -46,7 +46,10 @@ The long-context capabilities of large language models (LLMs) have been a hot to
 ```python
 pip install -r requirements.txt
 ```
-
+Download data from the link [**DATA**](https://drive.google.com/file/d/1oh5XOh3VexRLNGlLMyFq8bmd6JOx_f-x/view?usp=sharing), and then
+```
+unzip data.zip.
+```
 ## Inference
 You can directly perform inference on `Qwen2_7B_Instruct` model to be tested using the following command:
 ```python
