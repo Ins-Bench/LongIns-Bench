@@ -1,4 +1,4 @@
-Instruction_0: "You are an excellent grading teacher, and you will be given many completed questions. The requirements for these questions are as follows: {data['task_prompt']} Please identify all the questions that have been answered incorrectly according to the requirements."
+Instruction_0: "You are an excellent grading teacher, and you will be given many completed questions. The requirements for these questions are as follows:"
 
 Instruction_1: 
   "Please identify all the questions that have been answered incorrectly according to the requirements."
