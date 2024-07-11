@@ -72,13 +72,13 @@ If you add a `custom model` to be tested, you need to refer to the files in the 
 
 After you finish inference and confirm there are no error messages, please run the answer parsing and evaluation pipeline as follows: 
 ```
-python eval.py --model_name yi-vl-6b-chat --mode none --output_dir ./results --save_dir ./results_with_status
+python eval.py --model_name Qwen2_7B_Instruct --mode LIST --output_dir ./results --save_dir ./results_with_status --length 8192
 ```
 Detailed evaluation results can be found in the `save_dir`.
 
 Alternatively, you can use the following command to evaluate the inference results of all models:
 ```
-python eval.py --evaluate_all --output_dir ./results --save_dir ./results_with_status
+python eval.py --model_name Qwen2_7B_Instruct --mode LIST --length 8192
 ```
 
 
