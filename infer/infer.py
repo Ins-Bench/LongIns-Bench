@@ -4,6 +4,7 @@ import json
 import sys
 import argparse
 from tqdm import tqdm
+import random
 import os
 import shutil
 
@@ -14,18 +15,17 @@ def check_completed(output_file):
         with open(output_file, 'r') as file:
             for line in file:
                 data = json.loads(line)
-                for question in data['questions']:
-                    if 'response' in question and (isinstance(question['response'], str) or (isinstance(question['response'], dict) and 'error' not in question['response'])):
-                        completed[question['id']] = question['response']
-                    else:
-                        no_response_id.append(question['id'])
+                if 'response' in data and (isinstance(data['response'], str) or (isinstance(data['response'], dict) and 'error' not in data['response'])):
+                    completed[data['id']] = data['response']
+                else:
+                    no_response_id.append(data['id'])
     except FileNotFoundError:
         pass  # 文件未找到时忽略
     except json.JSONDecodeError:
         pass  # JSON 解码错误时忽略
     return completed, no_response_id
 
-def main(model_name='Qwen2_7B_Instruct',  modes=['GIST', 'LIST', 'LIMT'], output_dir='results',length=16384,infer_limit=None):
+def main(model_name='Qwen2_7B_Instruct',  modes=['GIST', 'LIST'], output_dir='results',length=512,infer_limit=None):
     tokenizer, model = load_model(model_name)
     os.makedirs(output_dir, exist_ok=True)
     for mode in modes:
@@ -39,11 +39,13 @@ def main(model_name='Qwen2_7B_Instruct',  modes=['GIST', 'LIST', 'LIMT'], output
         
         with open(temp_output_file_path, 'w') as temp_file:
             result={}
-            for prompts in tqdm(load_data(mode=mode,length=length), desc=f'Processing {mode}'):
-                for i, task in enumerate(prompts):
-                    response = infer(model_name)(tokenizer, model, prompts(task))
-                    result['id'] = task
-                    result['response'] = response
+            all_prompts=load_data(mode=mode,length=length)
+            
+            for question in tqdm(all_prompts, desc=f'Processing {mode}'):
+                #print(all_prompts[question])
+                response = infer(model_name)(tokenizer, model, all_prompts[question])
+                result['id'] = question
+                result['response'] = response
                 json.dump(result, temp_file)
                 temp_file.write('\n')
                 temp_file.flush()
@@ -59,12 +61,12 @@ def main(model_name='Qwen2_7B_Instruct',  modes=['GIST', 'LIST', 'LIMT'], output
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Run inference and save results.')
-    parser.add_argument('--model_name', type=str, default='yi-vl-6b-chat', help='Model name to use')
+    parser.add_argument('--model_name', type=str, default='Qwen2_7B_Instruct', help='Model name to use')
     
-    parser.add_argument('--mode', nargs='+', default=['LIST', 'GIST', 'LIMT'], help='Modes to use for data loading, separated by space')
+    parser.add_argument('--mode', nargs='+', default=['LIST', 'GIST'], help='Modes to use for data loading, separated by space')
     parser.add_argument('--output_dir', type=str, default='results', help='File to write results')
-    parser.add_argument('--length', type=int, default=16384, help='Data length to use')
-    parser.add_argument('--infer_limit', type=int, default=4096,help='Limit the number of inferences per run, default is no limit', default=None)
+    parser.add_argument('--length', type=int, default=8192, help='Data length to use')
+    parser.add_argument('--infer_limit', type=int, default=4096,help='Limit the number of inferences per run, default is no limit')
     args = parser.parse_args()
 
     main(model_name=args.model_name, modes=args.mode, output_dir=args.output_dir,length=args.length,infer_limit=args.infer_limit)
