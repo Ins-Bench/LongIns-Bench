@@ -1,10 +1,10 @@
 from .Qwen2_7B_Instruct import load_model as Qwen2_7B_Instruct_load_model, infer as Qwen2_7B_Instruct_infer
 
 models = {
-    'Qwen2-7B-Instruct': { # model name
+    'Qwen2_7B_Instruct': { # model name
         'load': Qwen2_7B_Instruct_load_model,
         'infer': Qwen2_7B_Instruct_infer,
-        'model-path': '<your-location-path>'
+        'model-path': '/root/qwen/Qwen2-7B-Instruct'
     },
 }
 
