@@ -8,22 +8,22 @@ def read_yaml(config='none'):
         return yaml.safe_load(yaml_file)
 
 # Load the data
-def load_data(split='test', mode='GIST',length=16384):
+def load_data(split='test', mode='LIST',length=512):
     template = read_yaml(mode)
-    with open(f'{length}.json', 'r', encoding='utf-8') as file:
+    with open(f'data/{mode}/{length}.json', 'r', encoding='utf-8') as file:
         context = json.load(file)
     prompts={}
     for task in context:
         if mode=="GIST":
-            prompts.update({task:f'''{template["Intsruction_0"]}
+            prompts.update({task:f'''{template["Instruction_0"]}
                                     {context[task]["task_prompt"]}
-                                    {template["Intsruction_1"]}
+                                    {template["Instruction_1"]}
                                     {context[task]["Data"]}
-                                    {template["Intsruction_2"]}'''})
+                                    {template["Instruction_2"]}'''})
         else:
-            prompts.update({task:f'''{template["Intsruction_0"]}
+            prompts.update({task:f'''{template["Instruction_0"]}
                         {context[task]["Data"]}
-                        {template["Intsruction_1"]}'''})
+                        {template["Instruction_1"]}'''})
     return prompts
         
 
