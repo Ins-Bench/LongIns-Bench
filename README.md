@@ -88,7 +88,7 @@ python eval.py --model_name Qwen2_7B_Instruct --mode LIST --length 8192
 ```bibtex
 @misc{gavin2024longinschallenginglongcontextinstructionbased,
       title={LongIns: A Challenging Long-context Instruction-based Exam for LLMs}, 
-      author={Shawn Gavin and Tuney Zheng and Jiaheng Liu and Quehry Que and Noah Wang and Jian Yang and Chenchen Zhang and Wenhao Huang and Wenhu Chen and Ge Zhang},
+      author={Shawn Gavin and Tuney Zheng and Jiaheng Liu and Quehry Que and Noah Wang and Jian Yang and Chenchen Zhang and Wenhao Huang and Ge Zhang},
       year={2024},
       eprint={2406.17588},
       archivePrefix={arXiv},
